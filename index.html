@@ -1,0 +1,372 @@
+
+<!-- ================================================================================================== 
+
+      Weather Dashboard - HTML file
+
+      Written:        Mark Watson
+      Date commenced: 25 September 2021 
+
+    ================================================================================================ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset     = "utf-8" >
+    <meta http-equiv  = "X-UA-Compatible" content =  "IE=edge" >
+    <meta name        = "description"     content ="weather dashboard"  >
+    <meta name        = "viewport"        content = "width=device-width, initial-scale=1"  >
+
+    <title> Weather Dashboard </title>
+    
+    <link 
+        rel   = "stylesheet" 
+        href  = "./css/style.css"
+    />
+
+    <script
+      type    = "text/javascript"
+      src     = "./js/moment/moment.js"
+    ></script>
+
+    <link 
+      rel     = "shortcut icon" 
+      href    = "img/favicon.ico?ver=1.0" 
+      type    = "image/x-icon" 
+    />
+
+		<link 
+      rel     = "icon" 
+      href    = "img/favicon.ico?ver=1.0" 
+      type    = "image/x-icon" 
+    />
+
+  </head>
+
+  <!-- ============================================================================================= -->
+    
+  <body>      
+    <div class  = "weather-page" >
+
+      <header class = "container theme padding" 
+              style = "display: flex; flex-direction: column; align-items: center;" 
+              id    = "myHeader"
+      >
+        <div class  = "center"  >
+          <h1 class = "xxxlarge animate-zoom" id  = "app-name" >  Weather Dashboard </h1>
+          <div class  = "padding" >
+            <button class   = "btn large dark-grey hover-light-grey" 
+                    onclick = "storedPrefs()" 
+                    style   = "font-weight:900;">
+              <i class  = "icon-equalizer"  ></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- == Configuration modal ================================================================== -->
+      
+      <div id = "id01" class  = "modal">
+        <div class  = "modal-content card-4 animate-top"  >
+          <header class = "container theme-l1"  > 
+            <span onclick = "document.getElementById('id01').style.display  = 'none'; location.reload();"
+                  class   = "button display-topright" >
+              <i class = "icon-cross"> </i>  
+            </span>
+            <h2>  Settings  </h2>
+          </header>
+
+          <div class  = "container" > 
+            <div class  = "row" >
+
+              <div class  = "third padding-16"  >
+                <h4 style = "font-weight: 600;">  Time: </h4>
+
+                <input  id     = "twentyFour"     class   = "radio"  
+                        type   = "radio"          name    = "time" 
+                        value  = "twentyFourHour" onclick = "userTimePref(this)" >
+                <label  class  = "small"> 24 hour <br />  &nbsp&nbsp&nbsp (1300hrs) </label> <br />  
+
+                <input  id     = "twelve"           class   = "radio" 
+                        type   = "radio"            name    = "time" 
+                        value  = "twelveHour"       onclick = "userTimePref(this)" >
+                <label  class  ="small" > 12 hour <br />  &nbsp&nbsp&nbsp (1:00PM)  </label> <br />
+              </div>
+
+              <div class="third padding-16">
+                <h4 style = "font-weight: 600;">Temperature:</h4>
+                
+                <input  id    = "metric"            class   = "radio" 
+                        type  = "radio"             name    = "temperature" 
+                        value = "celsius"           onclick = "userTempPref(this)" >
+                <label  class = "small" > metric <br /> &nbsp&nbsp&nbsp (°C)  </label> <br />
+
+                <input  id    = "imperial"          class   = "radio" 
+                        type  = "radio"             name    = "temperature" 
+                        value = "fahrenheit"        onclick = "userTempPref(this)" >
+                <label  class = "small" > imperial <br /> &nbsp&nbsp&nbsp (°F)  </label> <br />
+
+                <input  id    = "standard"          class   = "radio" 
+                        type  = "radio"             name    = "temperature" 
+                        value = "kelvin"            onclick = "userTempPref(this)" >
+                <label  class = "small" > scientific <br /> &nbsp&nbsp&nbsp (Kelvin)  </label>
+                
+                <p class  = "small" > * metric also sets speed to meters/s. Imperial is miles/h </p> <br />
+              </div>
+
+              <div class="third padding-16">
+                <h4 style = "font-weight: 600;">Date:</h4>
+                <input  id    = "date-day"          class   = "radio" 
+                        type  = "radio"             name    = "date" 
+                        value = "dd-mm-yyyy"        onclick = "userDatePref(this)" >
+                <label  class = "small"> dd-mm-yyyy <br />  &nbsp&nbsp&nbsp (21-01-2021)  </label> <br />
+                
+                <input  id    = "date-month"        class   = "radio" 
+                        type  = "radio"             name    = "date" 
+                        value = "mm-dd-yyyy"        onclick = "userDatePref(this)" >
+                <label  class = "small"> mm-dd-yyyy <br />  &nbsp&nbsp&nbsp (01-21-2021)  </label>
+                <br />
+                <input  id    = "date-year"         class   = "radio" 
+                        type  = "radio"             name    = "date" 
+                        value = "yyyy-mm-dd"        onclick = "userDatePref(this)" >
+                <label  class = "small"> yyyy-mm-dd <br />  &nbsp&nbsp&nbsp(2021-01-21) </label> <br />
+              </div> 
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- == Search Bar =========================================================================== -->
+
+      <div class  = "row-padding center margin-top">
+        <div class  = "quarter">
+          <div class  = "card container mobile-screen-900" style  = "min-height:55rem"  >
+            <h3 class = "left-align ">  Start search  </h3>
+            
+            <form class = "form-wrapper"  >
+              <div class  = "section left-align"  >
+                <div style  = "position:relative; " class =  "tooltip small"  >
+                  <input id =  "cityName" class = "input medium" type = "text" placeholder  = "provide city name" >
+                  <button id  = "submitButton" onclick  = "buttonCityEntered()" type  = "submit"  >
+                    <i class  = "icon-search" ></i>
+                  </button>
+                  <hr />
+                  <span class = "text theme-light padding"  > You can press &ltEnter&gt key instead of 
+                                                              clicking the search button.
+                  </span>  
+                </div>
+              </div>
+            </form>
+            <div id = "cityList" >  </div>
+          </div>
+        </div>
+      
+        <!-- == Current Day's Weather ============================================================== -->
+
+        <div class="threequarter">
+          <div class="card container mobile-screen" style="min-height:23rem;">
+            <h3 id="city-searched" class="left-align">City - Date</h3> 
+            <div class="left block">
+              <img  class="left" width="150" height="90" id="day0-icon" />
+              <span class="left padding-top-24" id="day0-description">  </span>
+            </div>
+        
+            <div  class = "small left-align padding-top-16" >  temp:
+              <span class="margin-left-lg" id = "today-temp"  > </span> 
+            </div>
+            <div  class = "small left-align padding-top-16" >  wind:
+              <span class =  "margin-left-lg"   id  = "today-wind" > </span> 
+            </div>
+            <div  class =  "small left-align padding-top-16">  humidity:
+              <span class = "margin-left"   id  = "today-humidity"> </span>
+            </div>
+            <div  class = "small left-align padding-top-16">  uv index:
+              <span class = "margin-left padding  border" id  = "today-uv"> </span>
+              <span class = "margin-left" id  = "today-uv-category"> </span>  
+            </div>
+          </div>
+
+          <!-- == 7-day Forecast ================================================================== -->
+          
+          <div class  = "container" style  = "min-height:15rem; margin: 0.5rem 0 0 -1rem;">
+            <h3 class = "left-align"> 7-day Forecast: </h3>
+
+            <!-- flexxing so to let the browser sort the layout responsively -->
+            <div style  = " display:flex; justify-content:flex-start; flex-wrap:wrap" >
+              
+              <div  id    = "day1-forecast" 
+                    class = "card col l2 padding theme-l5" 
+                    style = "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;">
+
+                <h4 class = "city-searched left-align" >  Day1  </h4>
+
+                <div class="center block">
+                  <img  width="100" height="60" id="day1-icon" />
+                  <div class="center small" id="day1-description"></div>
+                </div>
+
+                <div class="small left-align padding-top-8">  temp:
+                  <span class="margin-left-lg" id="day1-temp"> </span> 
+                </div>
+                <div class="small left-align padding-top-8">  wind:
+                  <span class="margin-left-lg" id="day1-wind"> </span> 
+                </div>
+                <div class="small left-align padding-top-8">  humidity:
+                  <span class="margin-left" id="day1-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day2-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day2-icon"  height  = "60" />
+                  <div  class = "center small" id = "day2-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day2-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day2-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day2-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day3-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day3-icon"  height  = "60" />
+                  <div  class = "center small" id  = "day3-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day3-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day3-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day3-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day4-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day4-icon"  height  = "60" />
+                  <div  class = "center small" id  = "day4-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day4-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day4-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day4-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day5-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day5-icon"  height  = "60" />
+                  <div  class = "center small" id  = "day5-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day5-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day5-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day5-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day6-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day6-icon"  height  = "60" />
+                  <div  class = "center small" id  = "day6-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day6-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day6-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day6-humidity"> </span> 
+                </div>
+              </div>
+
+              <div  id     =  "day7-forecast" 
+                    class  =  "card col l2 padding theme-l5" 
+                    style  =  "min-height:15rem; min-width:12rem; margin: 1rem 1.35rem 0 1rem;" >
+                <h4 class  = "city-searched left-align ">  Day2  </h4>
+
+                <div class  = "center block"  >
+                  <img  width = "100"          id  = "day7-icon"  height  = "60" />
+                  <div  class = "center small" id  = "day7-description"  > </div>
+                </div>
+
+                <div class  = "small left-align padding-top-8"> temp:
+                  <span class = "margin-left-lg" id = "day7-temp" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8" >  wind:
+                  <span class = "margin-left-lg" id = "day7-wind" > </span> 
+                </div>
+                <div class  = "small left-align padding-top-8"> humidity:
+                  <span class = "margin-left"   id  = "day7-humidity"> </span> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- == Footer ================================================================================= -->
+   
+    <footer class = "container theme-dark-mod margin-top bottom"  style  = "margin-left:0; position:sticky"  >
+      <div style  = "float:right;" class  = "tooltip right margin-top-8"  >
+        <span class = "text small theme-light padding margin-bottom-sml"  > 
+          Take me to the top. 
+        </span>    
+        <a class  = "text-white" href  = "#myHeader"  >
+          <span class = "xlarge"  >
+            <i class  = "icon-circle-up"  > </i>
+          </span>
+        </a>
+      </div>
+      <span class = "small margin-top-24" style="position:absolute">  
+        © Copyright 2021 Watsonised | All rights reversed.
+      </span>
+    </footer>
+
+    <script src = "./js/jQuery/jQuery3.6.0.js"  >  </script>
+    <script src = "./js/main.js"  >  </script>
+  </body>
+</html>
+
+ <!-- ============================================================================================== -->
