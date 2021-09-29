@@ -66,7 +66,7 @@ Thanks again W3-schools.  Their responsive CSS framework is excellent and I have
 ### 6. License  
  The works in this repository are subject to:  
 
-[![GitHub](https://img.shields.io/github/license/Mark33Mark/weather-dashboard)](docs/license_MIT.md)
+[![GitHub](https://img.shields.io/github/license/Mark33Mark/weather-dashboard)](doc/license_MIT.md)
 
 ---
 ### 7. Github repo status  
@@ -74,13 +74,13 @@ Thanks again W3-schools.  Their responsive CSS framework is excellent and I have
 ![GitHub top language](https://img.shields.io/github/languages/top/Mark33Mark/weather-dashboard)
 ![GitHub language count](https://img.shields.io/github/languages/count/Mark33Mark/weather-dashboard)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Mark33Mark/weather-dashboard)
-![GitHub commit checks state](https://img.shields.io/github/checks-status/Mark33Mark/weather-dashboard/c09b0cc0493c82e1421ba66afab23e5fa34c650f)
+![GitHub commit checks state](https://img.shields.io/github/checks-status/Mark33Mark/weather-dashboard/d15dc2aa313a52ff0c6612a4adfef5bdfcc6acb3)
 
 ---
 ### 8. How to Contribute
  If you would like to contribute, please comply with the Contributor Covenant Code of Conduct:  
 
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](docs/code_of_conduct.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](doc/code_of_conduct.md)
 
 ---
 ### 9. Tests  
