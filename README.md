@@ -51,7 +51,7 @@ Client requested features as implemented:
 ---
 ### 3. Installation  
 You can download the source code from [my Github repository](https://github.com/Mark33Mark/weather-dashboard) and open the index.html file to review the website inside your selected web browser.  
-Alternatively, the webpage has also been hosted via [URL: task.watsonised.com](https://sun.watsonised.com)
+Alternatively, the webpage has also been hosted via [URL: sun.watsonised.com](https://sun.watsonised.com)
 
 ---
 ### 4. Usage  
